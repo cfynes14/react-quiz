@@ -68,18 +68,26 @@ function App() {
   }
 
   const nextQuestion = () => {
+    //Move on to the next question if not the last question
 
+    const nextQuestion = number + 1;
 
-
+    if (nextQuestion === TOTAL_QUESTIONS) {
+      setGameOver(true);
+    } else {
+      setNumber(nextQuestion)
+    }
   }
 
   return (
-    <div className="App">
+    <>
+    <GlobalStyle />
+    <Wrapper>
       <h1>REACT QUIZ</h1>
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
         <button className="start" onClick={startTrivia}>Start</button> 
       ) : null }
-      {!gameOver ? <p className="score">Score:</p> : null}
+      {!gameOver ? <p className="score">Score: {score}</p> : null}
       {loading && <p>Loading Questions ...</p>} 
       {!loading && !gameOver && (
         
@@ -87,7 +95,7 @@ function App() {
          questionNumber={number + 1}
          totalQuestions={TOTAL_QUESTIONS}
          question={questions[number].question}
-         answers={questions[number].incorrect_answers}
+         answers={questions[number].answers}
          userAnswer={userAnswers ? userAnswers[number] : undefined}
          callback={checkAnswer}
        />
@@ -96,7 +104,8 @@ function App() {
      ( <button className="next" onClick={nextQuestion}>Next Question </button>
   ) : null
       }
-    </div>
+    </Wrapper>
+    </>
   );
 }
 
